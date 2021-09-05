@@ -19,12 +19,12 @@ test_df = load_data()
 
 def getPredictions(input_id):
     global test_df
+    test_df.set_index('id',iplace=True)
     with open('le_id.pkl', 'rb') as file:  
         le_id = pickle.load(file)
     
     ip_id = le_id.transform(np.array(input_id+'_evaluation').reshape(-1,1))[0]
-    mask = (test_df['id'] == ip_id)
-    test_df = test_df.loc[mask]
+    test_df = test_df[test_df['id'] == ip_id]
     
     with open('Pickle_CAT.pkl', 'rb') as file:  
         cat = pickle.load(file)
