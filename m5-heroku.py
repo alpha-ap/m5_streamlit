@@ -21,29 +21,29 @@ def getPredictions(input_id):
     global test_df
     with open('le_id.pkl', 'rb') as file:  
         le_id = pickle.load(file)
-    st.write(test_df.columns.to_list())
+    
     ip_id = le_id.transform(np.array(input_id+'_evaluation').reshape(-1,1))[0]
-    ip_df = test_df.loc[test_df['id'] == ip_id]
+    test_df = test_df.loc[test_df['id'] == ip_id]
     
     with open('Pickle_CAT.pkl', 'rb') as file:  
         cat = pickle.load(file)
-    y_pred_cat = cat.predict(ip_df)
+    y_pred_cat = cat.predict(test_df)
     
     with open('Pickle_DT.pkl', 'rb') as file:  
         dt = pickle.load(file)
-    y_pred_dt = dt.predict(ip_df)    
+    y_pred_dt = dt.predict(test_df)    
 
     with open('Pickle_LGBM.pkl', 'rb') as file:  
         lgbm = pickle.load(file)
-    y_pred_lgbm = lgbm.predict(ip_df)
+    y_pred_lgbm = lgbm.predict(test_df)
     
     with open('Pickle_RF.pkl', 'rb') as file:  
         rf = pickle.load(file)
-    y_pred_rf = rf.predict(ip_df)    
+    y_pred_rf = rf.predict(test_df)    
 
     with open('Pickle_XGB.pkl', 'rb') as file:  
         xgb = pickle.load(file)
-    y_pred_xgb = xgb.predict(ip_df)
+    y_pred_xgb = xgb.predict(test_df)
     
     x_test_meta = np.vstack((y_pred_dt,y_pred_rf,y_pred_xgb,y_pred_lgbm,y_pred_cat)).T
     del y_pred_dt,y_pred_rf,y_pred_xgb,y_pred_lgbm,y_pred_cat
@@ -53,7 +53,7 @@ def getPredictions(input_id):
     
     lst = list(range(1,29))
     lst = ['Day '+str(x) for x in lst]
-    d = {'id':le_id.inverse_transform(ip_df['id'].values),'d':lst,'units':y_pred_lr}
+    d = {'id':le_id.inverse_transform(test_df['id'].values),'d':lst,'units':y_pred_lr}
     y_pred = pd.DataFrame(data=d)
     y_pred.drop(['id'],axis=1,inplace=True)
     del d
