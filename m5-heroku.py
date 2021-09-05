@@ -19,7 +19,7 @@ test_df = load_data()
 
 def getPredictions(input_id):
     global test_df
-    test_df.set_index('id',iplace=True)
+    test_df.set_index('id',inplace=True)
     with open('le_id.pkl', 'rb') as file:  
         le_id = pickle.load(file)
     
