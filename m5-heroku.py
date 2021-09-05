@@ -25,7 +25,6 @@ def getPredictions(input_id):
     ip_id = le_id.transform(np.array(input_id+'_evaluation').reshape(-1,1))[0]
     ip_df = test_df.loc[test_df['id'] == ip_id]
     
-    del test_df
     with open('Pickle_CAT.pkl', 'rb') as file:  
         cat = pickle.load(file)
     y_pred_cat = cat.predict(ip_df)
