@@ -21,7 +21,7 @@ def getPredictions(input_id):
     global test_df
     with open('le_id.pkl', 'rb') as file:  
         le_id = pickle.load(file)
-    
+    st.write(test_df.columns.to_list())
     ip_id = le_id.transform(np.array(input_id+'_evaluation').reshape(-1,1))[0]
     ip_df = test_df.loc[test_df['id'] == ip_id]
     
@@ -61,7 +61,6 @@ def getPredictions(input_id):
 
 def checkValidity(input_id):
     val = False
-    global test_df
     with open('le_id.pkl', 'rb') as file:  
         le_id = pickle.load(file)
     try:
