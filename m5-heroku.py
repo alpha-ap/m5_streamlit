@@ -23,7 +23,8 @@ def getPredictions(input_id):
         le_id = pickle.load(file)
     
     ip_id = le_id.transform(np.array(input_id+'_evaluation').reshape(-1,1))[0]
-    test_df = test_df[test_df['id'] == ip_id]
+    mask = (test_df['id'] == ip_id)
+    test_df = test_df.loc[mask]
     
     with open('Pickle_CAT.pkl', 'rb') as file:  
         cat = pickle.load(file)
