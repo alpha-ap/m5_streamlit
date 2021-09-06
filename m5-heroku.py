@@ -49,7 +49,9 @@ def getPredictions(input_id):
     del y_pred_dt,y_pred_rf,y_pred_xgb,y_pred_lgbm,y_pred_cat
     with open('Pickle_LR.pkl', 'rb') as file:  
         lr = pickle.load(file)
+    
     y_pred_lr = lr.predict(x_test_meta)
+    y_pred_lr = [0 if x<0 else x for x in y_pred_lr]
     
     lst = list(range(1,29))
     lst = ['Day '+str(x) for x in lst]
